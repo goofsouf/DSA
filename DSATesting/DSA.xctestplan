@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "A0DE7C4C-9766-40F4-B680-66F4B8CD5D5F",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DSA.xcodeproj",
+        "identifier" : "12B61D642CF943BF00B8198F",
+        "name" : "DSATesting"
+      }
+    }
+  ],
+  "version" : 1
+}
