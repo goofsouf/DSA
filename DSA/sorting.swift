@@ -196,3 +196,38 @@ func countingSort(array: [Int]) -> [Int] {
     
     return sortedArray
 }
+// MARK: Digit Counting Sort
+func countingSortByDigit(array: [Int], place: Int) -> [Int] {
+    let range = 10
+    var countArray = Array(repeating: 0, count: range)
+    var sortedArray = Array(repeating: 0, count: array.count)
+    
+    for element in array {
+        let digit = (element / place) % 10
+        countArray[digit] += 1
+    }
+    for index in 1..<countArray.count{
+        countArray[index] = countArray[index-1] + countArray[index]
+    }
+    for pass in stride(from: array.count-1, through: 0, by: -1){
+        let element = array[pass]
+        let digit = (element / place) % 10
+        let position = countArray[digit] - 1
+        sortedArray[position] = element
+        countArray[digit] -= 1
+    }
+    
+    return sortedArray
+}
+
+// Mark Radix Sort
+func radixSort(array: [Int]) -> [Int] {
+    guard let max = array.max() else { return array}
+    var sortedArray: [Int] = array
+    var place = 1
+    while place <= max {
+        sortedArray = countingSortByDigit(array: sortedArray , place: place)
+        place *= 10
+    }
+    return sortedArray
+}
