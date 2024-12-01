@@ -147,14 +147,14 @@ func quickSortByRef(array: inout [Int], low: Int, high: Int) {
 func partition(array: inout [Int], low: Int, high: Int) -> Int {
     var pivotIndex: Int = low - 1
     let pivot: Int = array[high]
-    
+
     for pass in low..<high {
         if array[pass] < pivot {
             pivotIndex += 1
             array.swapAt(pivotIndex, pass)
         }
     }
-    
+
     array.swapAt(pivotIndex + 1, high)
     return pivotIndex + 1
 }
@@ -162,13 +162,37 @@ func partition(array: inout [Int], low: Int, high: Int) -> Int {
 // MARK: Heap Sort
 func heapSort(array: [Int]) -> [Int] {
     var copyArray = array
-    var sortedArray : [Int] = []
-    
+    var sortedArray: [Int] = []
+
     buildHeap(array: &copyArray)
     while !copyArray.isEmpty {
         let max = extractMax(array: &copyArray)
         sortedArray.append(max)
     }
-    
+
     return sortedArray.reversed()
+}
+
+// MARK: Counting Sort
+func countingSort(array: [Int]) -> [Int] {
+    guard !array.isEmpty else { return array }
+    let min = array.min()!
+    let range = array.max()! - min + 1
+    var countArray = Array(repeating: 0, count: range)
+    
+    for element in array {
+        countArray[element - min] += 1
+    }
+    for index in 1..<countArray.count{
+        countArray[index] = countArray[index-1] + countArray[index]
+    }
+    var sortedArray = Array(repeating: 0, count: array.count)
+    for pass in stride(from: array.count-1, through: 0, by: -1){
+        let element = array[pass]
+        let position = countArray[element-min] - 1
+        sortedArray[position] = element
+        countArray[array[pass]-min] -= 1
+    }
+    
+    return sortedArray
 }

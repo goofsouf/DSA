@@ -239,4 +239,32 @@ struct DSATesting {
             heapSort(array: mediumArray) == mediumExpected,
             "heapSort not working")
     }
+    
+    // MARK: Counting Sort
+    @Test func testCountingSort() async throws {
+        let input = [5, 2, 9, 1, 5, 6]
+        let expected = [1, 2, 5, 5, 6, 9]
+        #expect(countingSort(array: input) == expected, "countingSort not working")
+
+        let mediumArray = [
+            9, 2, 88, 24, 6, 71, 65, 75, 81, 53, 49, 5, 2, 48, 42, 67, 2, 76,
+            94, 59, 26, 88, 44, 80, 16, 90, 56, 78, 82, 35, 42, 99, 46, 11, 36,
+            57, 65, 83, 3, 23, 52, 33, 56, 0, 90, 14, 53, 56, 51, 94, 49, 71,
+            40, 100, 90, 83, 73, 67, 35, 55, 71, 80, 72, 7, 90, 78, 89, 49, 16,
+            24, 52, 91, 19, 9, 37, 74, 79, 78, 62, 65, 86, 95, 0, 49, 61, 90,
+            69, 8, 37, 5, 36, 8, 63, 4, 15, 84, 69, 69, 48, 40, 98,
+        ]
+        let mediumExpected = [
+            0, 0, 2, 2, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 9, 11, 14, 15, 16, 16, 19,
+            23, 24, 24, 26, 33, 35, 35, 36, 36, 37, 37, 40, 40, 42, 42, 44, 46,
+            48, 48, 49, 49, 49, 49, 51, 52, 52, 53, 53, 55, 56, 56, 56, 57, 59,
+            61, 62, 63, 65, 65, 65, 67, 67, 69, 69, 69, 71, 71, 71, 72, 73, 74,
+            75, 76, 78, 78, 78, 79, 80, 80, 81, 82, 83, 83, 84, 86, 88, 88, 89,
+            90, 90, 90, 90, 90, 91, 94, 94, 95, 98, 99, 100,
+        ]
+
+        #expect(
+            countingSort(array: mediumArray) == mediumExpected,
+            "countingSort not working")
+    }
 }

@@ -10,6 +10,6 @@ var unsortedArray: [Int] = [
     69, 48, 40, 98,
 ]
 
-var array3: [Int] = [4,6,52,10,17,28,39,43,11]
-buildHeap(array: &array3)
-print(array3)
+var array3: [Int] = [4, 2, 2, 8, 3, 3, 1]
+
+print(countingSort(array: array3))
