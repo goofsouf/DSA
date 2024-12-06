@@ -220,7 +220,7 @@ func countingSortByDigit(array: [Int], place: Int) -> [Int] {
     return sortedArray
 }
 
-// Mark Radix Sort
+// MARK: Radix Sort
 func radixSort(array: [Int]) -> [Int] {
     guard let max = array.max() else { return array}
     var sortedArray: [Int] = array

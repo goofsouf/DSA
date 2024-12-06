@@ -312,5 +312,22 @@ struct DSATesting {
             radixSort(array: mediumArray) == mediumExpected,
             "radix not working")
     }
+    
+    // MARK: Preorder Traverse
+    @Test func testPreorderTraverse() async throws {
+        let root = node(value: 1)
+        root.left = node(value: 2)
+        root.right = node(value: 3)
+        root.left?.left = node(value: 4)
+        root.left?.right = node(value: 5)
+
+
+        var result: [Int] = []
+        let expected = [1, 2, 4, 5, 3]
+        traversePreorder(root: root) { value in
+            result.append(value)
+        }
+        #expect( result == expected, "Preorder traverse not working")
+    }
 
 }
