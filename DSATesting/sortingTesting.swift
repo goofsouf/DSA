@@ -1,15 +1,15 @@
 //
-//  DSATesting.swift
-//  DSATesting
+//  sorting.swift
+//  DSA
 //
-//  Created by Soufiane on 29/11/2024.
+//  Created by Soufiane on 07/12/2024.
 //
 
 import Testing
 
 @testable import DSA
 
-struct DSATesting {
+struct SortingTesting {
     // MARK: Bubble Sort
     @Test func testBubbleSort() async throws {
         let input = [5, 2, 9, 1, 5, 6]
@@ -184,34 +184,6 @@ struct DSATesting {
             "quickSortByRef not working")
     }
 
-    // MARK: Build Heap
-    @Test func TestBuildHeap() async throws {
-        var input = [52, 43, 39, 11, 17, 28, 4, 10, 6]
-        let expected = [52, 43, 39, 11, 17, 28, 4, 10, 6]
-        buildHeap(array: &input)
-
-        #expect(input == expected, "Build heap is not working")
-    }
-
-    // MARK: Heap extract max
-    @Test func TestHeapExtaxtMax() async throws {
-        var input = [15, 10, 12, 8, 4, 5, 9, 3, 1, 7, 6, 2]
-        let expectedArray = [12, 10, 9, 8, 7, 5, 2, 3, 1, 4, 6]
-        let expectedMax = 15
-        buildHeap(array: &input)
-        let extracted = extractMax(array: &input)
-        #expect(input == expectedArray, "Extract Max returning wrong array")
-        #expect(extracted == expectedMax, "Extaxt Max returning wrong Max")
-    }
-
-    // MARK: Heap insert value
-    @Test func TestInsertValueHeap() async throws {
-        var input = [100, 50, 90, 30, 40, 70, 80]
-        let expected = [100, 95, 90, 50, 40, 70, 80, 30]
-        insert(array: &input, value: 95)
-        #expect(input == expected, "Insert value into heap is not working")
-    }
-
     // MARK: Heap Sort
     @Test func testHeapSort() async throws {
         let input = [5, 2, 9, 1, 5, 6]
@@ -311,57 +283,5 @@ struct DSATesting {
         #expect(
             radixSort(array: mediumArray) == mediumExpected,
             "radix not working")
-    }
-
-    // MARK: Preorder Traverse
-    @Test func testPreorderTraverse() async throws {
-        let root = node(value: 1)
-        root.left = node(value: 2)
-        root.right = node(value: 3)
-        root.left?.left = node(value: 4)
-        root.left?.right = node(value: 5)
-
-        var result: [Int] = []
-        let expected = [1, 2, 4, 5, 3]
-        traversePreorder(root: root) { value in
-            result.append(value)
-        }
-        #expect(result == expected, "Preorder traverse not working")
-    }
-
-    // MARK: Inorder Traverse
-    @Test func testInorderTraverse() async throws {
-        let root = node(value: 4)
-        root.left = node(value: 2)
-        root.right = node(value: 6)
-        root.left?.left = node(value: 1)
-        root.left?.right = node(value: 3)
-        root.right?.left = node(value: 5)
-        root.right?.right = node(value: 7)
-
-        var result: [Int] = []
-        let expected = [1, 2, 3, 4, 5, 6, 7]
-        traverseInorder(root: root) { value in
-            result.append(value)
-        }
-        #expect(result == expected, "Inorder traverse not working")
-    }
-
-    // MARK: Postorder Traverse
-    @Test func testPostorder() async throws {
-        let root = node(value: 4)
-        root.left = node(value: 2)
-        root.right = node(value: 6)
-        root.left?.left = node(value: 1)
-        root.left?.right = node(value: 3)
-        root.right?.left = node(value: 5)
-        root.right?.right = node(value: 7)
-
-        var result: [Int] = []
-        let expected = [1, 3, 2, 5, 7, 6, 4]
-        traversePostorder(root: root) { value in
-            result.append(value)
-        }
-        #expect(result == expected, "ostorder traversal is not working")
     }
 }
