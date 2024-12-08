@@ -61,7 +61,36 @@ struct TreesTesting {
         }
         #expect(result == expected, "ostorder traversal is not working")
     }
-    
+
     // MARK: build tree from array
+    @Test func testBuildTreeFromArray() async throws {
+        let tree: node? = buildTreeFromArray(
+            array: [1, 2, 3, 4, 5, 6, 7, 8, 9], index: 0)
+        var result: [Int] = []
+        let expected = [8, 4, 9, 2, 5, 1, 6, 3, 7]
+        traverseInorder(root: tree) { value in
+            result.append(value)
+        }
+        #expect(result == expected, "build tree from array is not working")
+    }
+
+    // MARK: Tree height
+    @Test func testTreeHeight() async throws {
+        let tree: node? = buildTreeFromArray(
+            array: [1, 2, 3, 4, 5, 6, 7, 8 ,9], index: 0)
+        let height: Int = TreeHeight(tree: tree!)
+
+        #expect(height == 4, "Tree Height not working")
+    }
     
+    // MARK: Tree diameter
+    @Test func testTreeDiameter() async throws {
+        let tree: node? = buildTreeFromArray(
+            array: [1, 2, 3, 4, 5, 6, 7, 8 ,9], index: 0)
+        
+        let diameter: Int = TreeDiameter(tree: tree)
+        
+        #expect(diameter == 5, "Tree diameter not work")
+    }
+
 }
