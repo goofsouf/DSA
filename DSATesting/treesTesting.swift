@@ -77,20 +77,36 @@ struct TreesTesting {
     // MARK: Tree height
     @Test func testTreeHeight() async throws {
         let tree: node? = buildTreeFromArray(
-            array: [1, 2, 3, 4, 5, 6, 7, 8 ,9], index: 0)
+            array: [1, 2, 3, 4, 5, 6, 7, 8, 9], index: 0)
         let height: Int = TreeHeight(tree: tree!)
 
         #expect(height == 4, "Tree Height not working")
     }
-    
+
     // MARK: Tree diameter
     @Test func testTreeDiameter() async throws {
         let tree: node? = buildTreeFromArray(
-            array: [1, 2, 3, 4, 5, 6, 7, 8 ,9], index: 0)
-        
+            array: [1, 2, 3, 4, 5, 6, 7, 8, 9], index: 0)
+
         let diameter: Int = TreeDiameter(tree: tree)
-        
+
         #expect(diameter == 5, "Tree diameter not work")
     }
 
+    // MARK: Check if tree balanced
+    @Test func testTreeBalanceCheck() async throws {
+        let tree: node? = buildTreeFromArray(
+            array: [1, 2, 3, 4, 5, 6, 7, 8, 9], index: 0)
+        #expect(
+            treeIsBalanced(tree: tree) == true,
+            "Tree balance check is not working")
+
+        let root = node(value: 1)
+        root.left = node(value: 2)
+        root.left?.left = node(value: 4)
+
+        #expect(
+            treeIsBalanced(tree: root) == false,
+            "Tree balance check is not working")
+    }
 }

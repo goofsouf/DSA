@@ -76,3 +76,22 @@ func TreeDiameter(tree: node?) -> Int {
     _ = walkTree(tree: tree)
     return maxDiameter
 }
+
+func treeIsBalanced(tree: node?) -> Bool {
+    func TreeHeights(tree: node?) -> Int {
+        guard let tree = tree else { return 0 }
+
+        let rightHeight = TreeHeights(tree: tree.right)
+        if rightHeight == -1 { return -1 }
+        let leftHeight = TreeHeights(tree: tree.left)
+        if leftHeight == -1 { return -1 }
+        
+        if abs(rightHeight - leftHeight) > 1 {
+            return -1
+        }
+
+        return 1 + max(rightHeight, leftHeight)
+    }
+
+    return TreeHeights(tree: tree) != -1
+}
