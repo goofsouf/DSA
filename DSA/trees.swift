@@ -5,7 +5,7 @@
 //  Created by Soufiane on 05/12/2024.
 //
 
-class node {
+class node: Equatable {
     var left: node?
     var right: node?
     var value: Int
@@ -13,6 +13,10 @@ class node {
         self.left = left
         self.right = right
         self.value = value
+    }
+
+    static func == (lhs: node, rhs: node) -> Bool {
+        return lhs === rhs
     }
 }
 
@@ -40,8 +44,8 @@ func traversePostorder(root: node?, visit: (Int) -> Void = { print($0) }) {
     visit(root.value)
 }
 
-func buildTreeFromArray(array: [Int], index: Int) -> node? {
-    guard index < array.count else { return nil }
+func buildTreeFromArray(array: [Int?], index: Int) -> node? {
+    guard index < array.count, let value = array[index] else { return nil }
 
     let left = index * 2 + 1
     let right = index * 2 + 2
@@ -49,7 +53,7 @@ func buildTreeFromArray(array: [Int], index: Int) -> node? {
     let leftNode = buildTreeFromArray(array: array, index: left)
     let rightNode = buildTreeFromArray(array: array, index: right)
 
-    let root = node(value: array[index], left: leftNode, right: rightNode)
+    let root = node(value: value, left: leftNode, right: rightNode)
 
     return root
 }
@@ -85,7 +89,7 @@ func treeIsBalanced(tree: node?) -> Bool {
         if rightHeight == -1 { return -1 }
         let leftHeight = TreeHeights(tree: tree.left)
         if leftHeight == -1 { return -1 }
-        
+
         if abs(rightHeight - leftHeight) > 1 {
             return -1
         }
@@ -94,4 +98,56 @@ func treeIsBalanced(tree: node?) -> Bool {
     }
 
     return TreeHeights(tree: tree) != -1
+}
+
+func lowestCommonAncestor(tree: node?, node1: node?, node2: node?) -> node? {
+    guard let tree = tree else { return nil }
+    if tree == node1 || tree == node2 {
+        return tree
+    }
+    let leftLCA = lowestCommonAncestor(
+        tree: tree.left, node1: node1, node2: node2)
+    let rightLCA = lowestCommonAncestor(
+        tree: tree.right, node1: node1, node2: node2)
+
+    if leftLCA != nil, rightLCA != nil {
+        return tree
+    }
+    return leftLCA ?? rightLCA
+}
+
+func preorderSerializeTree(tree: node?) -> [Int?] {
+    var result: [Int?] = []
+    func walkTree(tree: node?) {
+        guard let tree = tree else {
+            result.append(nil)
+            return
+        }
+        result.append(tree.value)
+        walkTree(tree: tree.left)
+        walkTree(tree: tree.right)
+    }
+    walkTree(tree: tree)
+    return result
+}
+
+func levelOrderSerializationTree(tree: node?) -> [Int?] {
+    var result: [Int?] = []
+    var queue: [node?] = [tree]
+
+    while !queue.isEmpty {
+        let current = queue.removeFirst()
+        if let currentNode = current {
+            result.append(currentNode.value)
+            queue.append(currentNode.left)
+            queue.append(currentNode.right)
+        } else {
+            result.append(nil)
+        }
+    }
+    // Remove trailing nil values
+    while let last = result.last, last == nil {
+        result.removeLast()
+    }
+    return result
 }

@@ -109,4 +109,51 @@ struct TreesTesting {
             treeIsBalanced(tree: root) == false,
             "Tree balance check is not working")
     }
+
+    // MARK: Lowest common ancestor
+    @Test func testLCA() async throws {
+        let root = node(value: 3)
+        root.left = node(value: 5)
+        root.right = node(value: 1)
+        root.left?.left = node(value: 6)
+        root.left?.right = node(value: 2)
+        root.left?.right?.left = node(value: 7)
+        root.left?.right?.right = node(value: 4)
+        root.right?.left = node(value: 0)
+        root.right?.right = node(value: 8)
+
+        let node1 = root.left  // Node 5
+        let node2 = root.left?.right?.right  // Node 4
+        let lca = lowestCommonAncestor(tree: root, node1: node1, node2: node2)
+
+        #expect(lca?.value == 5, "LCA is not working")
+    }
+
+    // MARK: Preorder tree serialization
+    @Test func testPreorderSerialization() async throws {
+        let root = node(value: 1)
+        root.left = node(value: 2)
+        root.right = node(value: 3)
+        root.left?.left = node(value: 4)
+        root.left?.right = node(value: 5)
+
+        let serialized = preorderSerializeTree(tree: root)
+        #expect(
+            serialized == [1, 2, 4, nil, nil, 5, nil, nil, 3, nil, nil],
+            "Preorder serialization not working")
+    }
+
+    // MARK: level order tree serialization
+    @Test func testLevelOrderSerialization() async throws {
+        let root = node(value: 1)
+        root.left = node(value: 2)
+        root.right = node(value: 3)
+        root.left?.left = node(value: 4)
+        root.left?.right = node(value: 5)
+
+        let serialized = levelOrderSerializationTree(tree: root)
+        #expect(
+            serialized == [1, 2, 3, 4, 5],
+            "Preorder serialization not working")
+    }
 }

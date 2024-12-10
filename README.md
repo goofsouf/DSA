@@ -18,17 +18,16 @@
 - [x] Inorder Traversal
 - [x] Postorder Traversal
 - [x] Tree Construction (Level Order from Array)
+
+### **Advanced Tree Algorithms
 - [x] Tree Height Calculation
 - [x] Tree Diameter Calculation
+- [x] Check if a Tree is Balanced (Current Task)
+- [x] Lowest Common Ancestor (LCA)
 
 ---
 
 ## **To-Do List**
-
-### **Advanced Tree Algorithms**
-- [ ] Check if a Tree is Balanced (Current Task)
-- [ ] Lowest Common Ancestor (LCA)
-
 ### **Binary Tree to Other Representations**
 - [ ] Convert Binary Tree to Array
 - [ ] Serialize and Deserialize Trees
