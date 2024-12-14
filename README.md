@@ -24,14 +24,16 @@
 - [x] Tree Diameter Calculation
 - [x] Check if a Tree is Balanced (Current Task)
 - [x] Lowest Common Ancestor (LCA)
+### **Binary Tree to Other Representations**
+- [x] Convert Binary Tree to Array
+- [x] Serialize and Deserialize Trees
+
+### **Binary Tree to Other Representations**
+- [x] Convert Binary Tree to Array
+- [x] Serialize and Deserialize Trees
 
 ---
-
 ## **To-Do List**
-### **Binary Tree to Other Representations**
-- [ ] Convert Binary Tree to Array
-- [ ] Serialize and Deserialize Trees
-
 ### **Binary Search Tree (BST) Operations**
 - [ ] Insert a Node
 - [ ] Search for a Node

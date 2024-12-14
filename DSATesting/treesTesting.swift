@@ -156,4 +156,31 @@ struct TreesTesting {
             serialized == [1, 2, 3, 4, 5],
             "Preorder serialization not working")
     }
+
+    // MARK: preorder tree deserialization
+    @Test func testPreorderDeserialize() async throws {
+        // Serialized preorder array
+        let serialized: [Int?] = [1, 2, 4, nil, nil, 5, nil, nil, 3, nil, nil]
+
+        // Expected tree structure
+        let expectedRoot = node(value: 1)
+        expectedRoot.left = node(value: 2)
+        expectedRoot.right = node(value: 3)
+        expectedRoot.left?.left = node(value: 4)
+        expectedRoot.left?.right = node(value: 5)
+
+        // Deserialize the serialized array
+        let deserializedRoot: node? = preorderDeserialize(array: serialized)
+
+        // Helper function to compare trees
+        func isSameTree(_ tree1: node?, _ tree2: node?) -> Bool {
+            if tree1 == nil && tree2 == nil { return true }
+            guard let tree1 = tree1, let tree2 = tree2 else { return false }
+            return tree1.value == tree2.value
+                && isSameTree(tree1.left, tree2.left)
+                && isSameTree(tree1.right, tree2.right)
+        }
+        #expect(isSameTree(deserializedRoot, expectedRoot))
+
+    }
 }

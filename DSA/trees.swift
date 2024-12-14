@@ -151,3 +151,21 @@ func levelOrderSerializationTree(tree: node?) -> [Int?] {
     }
     return result
 }
+
+func preorderDeserialize(array: [Int?]) -> node? {
+    var index: Int = 0
+    func walkTree(array: [Int?]) -> node? {
+        guard array.count > index, let value = array[index] else {
+            index += 1
+            return nil
+        }
+        let tree: node = node(value: value)
+
+        index += 1
+        tree.left = walkTree(array: array)
+        tree.right = walkTree(array: array)
+        return tree
+
+    }
+    return walkTree(array: array)
+}
