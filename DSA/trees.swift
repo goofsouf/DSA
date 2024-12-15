@@ -169,3 +169,14 @@ func preorderDeserialize(array: [Int?]) -> node? {
     }
     return walkTree(array: array)
 }
+
+func insertBSTNode(tree: node?, value: Int) -> node? {
+    guard let tree else { return node(value: value) }
+    
+    if value < tree.value {
+        tree.left = insertBSTNode(tree: tree.left, value: value)
+    }else{
+        tree.right = insertBSTNode(tree: tree.right, value: value)
+    }
+    return tree
+}
