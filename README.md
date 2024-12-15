@@ -35,7 +35,7 @@
 ---
 ## **To-Do List**
 ### **Binary Search Tree (BST) Operations**
-- [ ] Insert a Node
+- [x] Insert a Node
 - [ ] Search for a Node
 - [ ] Delete a Node
 - [ ] Traversals (Inorder, Preorder, Postorder for BST)
