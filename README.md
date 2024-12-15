@@ -19,7 +19,7 @@
 - [x] Postorder Traversal
 - [x] Tree Construction (Level Order from Array)
 
-### **Advanced Tree Algorithms
+### **Advanced Tree Algorithms**
 - [x] Tree Height Calculation
 - [x] Tree Diameter Calculation
 - [x] Check if a Tree is Balanced (Current Task)
@@ -36,7 +36,7 @@
 ## **To-Do List**
 ### **Binary Search Tree (BST) Operations**
 - [x] Insert a Node
-- [ ] Search for a Node
+- [x] Search for a Node
 - [ ] Delete a Node
 - [ ] Traversals (Inorder, Preorder, Postorder for BST)
 

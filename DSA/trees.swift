@@ -180,3 +180,15 @@ func insertBSTNode(tree: node?, value: Int) -> node? {
     }
     return tree
 }
+
+func searchBSTNode(tree: node?, value: Int) -> node? {
+    guard let tree else { return nil }
+    if tree.value == value {
+        return tree
+    }
+    if value < tree.value {
+        return searchBSTNode(tree: tree.left, value: value)
+    }else{
+        return searchBSTNode(tree: tree.right, value: value)
+    }
+}

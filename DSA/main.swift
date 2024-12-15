@@ -7,6 +7,6 @@ expectedRoot.right = node(value: 17)
 expectedRoot.left?.left = node(value: 4)
 expectedRoot.left?.right = node(value: 7)
 
+let res = searchBSTNode(tree: expectedRoot, value: 8) ?? node(value: -1)
 
-traverseInorder(root: expectedRoot)
-traverseInorder(root: insertBSTNode(tree: expectedRoot, value: 10))
+print(res.value)

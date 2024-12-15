@@ -197,4 +197,35 @@ struct TreesTesting {
         #expect(updatedRoot?.left?.right?.value == 7)
         #expect(updatedRoot?.right?.value == 15)
     }
+    
+    // MARK: Search BST Node
+    @Test func testBSTSearch() async throws {
+        // Test Case 1: Search for a value that exists
+        let root = node(value: 10)
+        root.left = node(value: 5)
+        root.right = node(value: 15)
+        root.left?.left = node(value: 3)
+        root.left?.right = node(value: 7)
+
+        var foundNode = searchBSTNode(tree: root, value: 7)
+        #expect(foundNode?.value == 7, "Failed to find the existing value in the BST")
+
+        // Test Case 2: Search for the root node
+        foundNode = searchBSTNode(tree: root, value: 10)
+        #expect(foundNode?.value == 10, "Failed to find the root value in the BST")
+
+        // Test Case 3: Search for a value that doesn’t exist
+        foundNode = searchBSTNode(tree: root, value: 12)
+        #expect(foundNode == nil, "Search returned a node for a value that doesn't exist in the BST")
+
+        // Test Case 4: Search in a single-node tree
+        let singleNodeTree = node(value: 10)
+        foundNode = searchBSTNode(tree: singleNodeTree, value: 10)
+        #expect(foundNode?.value == 10, "Failed to find the root value in a single-node tree")
+
+        // Test Case 5: Search in an empty tree
+        let emptyTree: node? = nil
+        foundNode = searchBSTNode(tree: emptyTree, value: 5)
+        #expect(foundNode == nil, "Search returned a node for an empty tree")
+    }
 }
