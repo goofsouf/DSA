@@ -38,8 +38,9 @@
 - [x] Insert a Node
 - [x] Search for a Node
 - [x] Delete a Node
-- [ ] Traversals (Inorder, Preorder, Postorder for BST)
-
+- [x] Traversals (Inorder, Preorder, Postorder for BST)
+- [ ] Verifying if a Tree is a BST
+- [ ] Transforming a Tree into a BST
 ### **Graph Algorithms**
 - [ ] Graph Representation (Adjacency Matrix, Adjacency List)
 - [ ] Breadth-First Search (BFS)
