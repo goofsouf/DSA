@@ -219,6 +219,16 @@ func deleteBSTNode(tree: node?, value: Int) -> node? {
     return tree
 }
 
+func checkBSTProperty(tree: node?, _ min: Int? = nil, _ max: Int? = nil) -> Bool
+{
+    guard let tree else { return true }
+    if let min = min, tree.value <= min { return false }
+    if let max = max, tree.value >= max { return false }
+
+    return checkBSTProperty(tree: tree.left, min, tree.value)
+        && checkBSTProperty(tree: tree.right, tree.value, max)
+
+}
 func findMinBST(tree: node?) -> node? {
     var current = tree
     while let next = current!.left {

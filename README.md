@@ -39,7 +39,7 @@
 - [x] Search for a Node
 - [x] Delete a Node
 - [x] Traversals (Inorder, Preorder, Postorder for BST)
-- [ ] Verifying if a Tree is a BST
+- [x] Verifying if a Tree is a BST
 - [ ] Transforming a Tree into a BST
 ### **Graph Algorithms**
 - [ ] Graph Representation (Adjacency Matrix, Adjacency List)

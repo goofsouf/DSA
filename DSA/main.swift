@@ -16,4 +16,4 @@ root.right?.left?.right = node(value: 27)
 
 var test = 0
 
-traverseInorder(root: deleteBSTNode(tree: root, value: 10))
+print(checkBSTProperty(tree: root))

@@ -246,4 +246,39 @@ struct TreesTesting {
         #expect(updatedRoot?.left?.value == 15, "The inorder successor 15 should replace 10")
         #expect(updatedRoot?.left?.right == nil, "The inorder successor node 15 should be deleted")
     }
+    
+    // MARK: Verify if tree is BST
+    @Test func testCheckBSTProperty() async throws {
+        let root1 = node(value: 10)
+        root1.left = node(value: 5)
+        root1.right = node(value: 15)
+        root1.left?.left = node(value: 2)
+        root1.left?.right = node(value: 8)
+        root1.right?.right = node(value: 20)
+
+        #expect(checkBSTProperty(tree: root1), "Tree should be a valid BST")
+        
+        let root2 = node(value: 10)
+        root2.left = node(value: 5)
+        root2.right = node(value: 20)
+        root2.right?.left = node(value: 8)
+
+        #expect(!checkBSTProperty(tree: root2), "Tree should be invalid BST")
+        
+        let root = node(value: 20)
+        root.left = node(value: 10)
+        root.right = node(value: 30)
+
+        root.left?.left = node(value: 5)
+        root.left?.right = node(value: 15)
+        root.left?.left?.left = node(value: 3)
+        root.left?.left?.right = node(value: 7)
+
+        root.right?.left = node(value: 25)
+        root.right?.right = node(value: 40)
+        root.right?.left?.left = node(value: 22)
+        root.right?.left?.right = node(value: 27)
+        
+        #expect(checkBSTProperty(tree: root), "Tree should be a valid BST")
+    }
 }
