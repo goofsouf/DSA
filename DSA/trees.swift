@@ -28,11 +28,11 @@ func traversePreorder(root: node?, visit: (Int) -> Void = { print($0) }) {
     traversePreorder(root: root.right, visit: visit)
 }
 
-func traverseInorder(root: node?, visit: (Int) -> Void = { print($0) }) {
+func traverseInorder(root: node?, visit: (node) -> Void = { print($0.value) }) {
     guard let root = root else { return }
 
     traverseInorder(root: root.left, visit: visit)
-    visit(root.value)
+    visit(root)
     traverseInorder(root: root.right, visit: visit)
 }
 
@@ -172,10 +172,10 @@ func preorderDeserialize(array: [Int?]) -> node? {
 
 func insertBSTNode(tree: node?, value: Int) -> node? {
     guard let tree else { return node(value: value) }
-    
+
     if value < tree.value {
         tree.left = insertBSTNode(tree: tree.left, value: value)
-    }else{
+    } else {
         tree.right = insertBSTNode(tree: tree.right, value: value)
     }
     return tree
@@ -188,7 +188,49 @@ func searchBSTNode(tree: node?, value: Int) -> node? {
     }
     if value < tree.value {
         return searchBSTNode(tree: tree.left, value: value)
-    }else{
+    } else {
         return searchBSTNode(tree: tree.right, value: value)
     }
+}
+
+func deleteBSTNode(tree: node?, value: Int) -> node? {
+    guard let tree = tree else { return nil }
+
+    if value < tree.value {
+        tree.left = deleteBSTNode(tree: tree.left, value: value)
+    } else if value > tree.value {
+        tree.right = deleteBSTNode(tree: tree.right, value: value)
+    } else {
+        if tree.left == nil, tree.right == nil {
+            return nil
+        }
+        if tree.right == nil {
+            return tree.left
+        }
+        if tree.left == nil {
+            return tree.right
+        }
+
+        if let successor = findMinBST(tree: tree.right) {
+            tree.value = successor.value
+            tree.right = deleteBSTNode(tree: tree.right, value: successor.value)
+        }
+    }
+    return tree
+}
+
+func findMinBST(tree: node?) -> node? {
+    var current = tree
+    while let next = current!.left {
+        current = next
+    }
+    return current
+}
+
+func findMaxBST(tree: node?) -> node? {
+    var current = tree
+    while let next = current?.right {
+        current = next
+    }
+    return current
 }

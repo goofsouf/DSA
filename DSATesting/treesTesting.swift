@@ -38,8 +38,8 @@ struct TreesTesting {
         
         var result: [Int] = []
         let expected = [1, 2, 3, 4, 5, 6, 7]
-        traverseInorder(root: root) { value in
-            result.append(value)
+        traverseInorder(root: root) { inNode in
+            result.append(inNode.value)
         }
         #expect(result == expected, "Inorder traverse not working")
     }
@@ -68,8 +68,8 @@ struct TreesTesting {
             array: [1, 2, 3, 4, 5, 6, 7, 8, 9], index: 0)
         var result: [Int] = []
         let expected = [8, 4, 9, 2, 5, 1, 6, 3, 7]
-        traverseInorder(root: tree) { value in
-            result.append(value)
+        traverseInorder(root: tree) { inNode in
+            result.append(inNode.value)
         }
         #expect(result == expected, "build tree from array is not working")
     }
@@ -227,5 +227,23 @@ struct TreesTesting {
         let emptyTree: node? = nil
         foundNode = searchBSTNode(tree: emptyTree, value: 5)
         #expect(foundNode == nil, "Search returned a node for an empty tree")
+    }
+    
+    // MARK: delete node
+    @Test func testDeleteBSTNode() async throws {
+        let root = node(value: 20)
+        root.left = node(value: 10)
+        root.right = node(value: 30)
+        root.left?.left = node(value: 5)
+        root.left?.right = node(value: 15)
+        root.left?.left?.left = node(value: 3)
+        root.left?.left?.right = node(value: 7)
+        root.right?.left = node(value: 25)
+        root.right?.right = node(value: 40)
+
+        let updatedRoot = deleteBSTNode(tree: root, value: 10)
+        #expect(updatedRoot?.value == 20, "Root value should remain 20")
+        #expect(updatedRoot?.left?.value == 15, "The inorder successor 15 should replace 10")
+        #expect(updatedRoot?.left?.right == nil, "The inorder successor node 15 should be deleted")
     }
 }

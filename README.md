@@ -37,7 +37,7 @@
 ### **Binary Search Tree (BST) Operations**
 - [x] Insert a Node
 - [x] Search for a Node
-- [ ] Delete a Node
+- [x] Delete a Node
 - [ ] Traversals (Inorder, Preorder, Postorder for BST)
 
 ### **Graph Algorithms**
