@@ -32,16 +32,16 @@
 - [x] Convert Binary Tree to Array
 - [x] Serialize and Deserialize Trees
 
----
-## **To-Do List**
 ### **Binary Search Tree (BST) Operations**
 - [x] Insert a Node
 - [x] Search for a Node
 - [x] Delete a Node
 - [x] Traversals (Inorder, Preorder, Postorder for BST)
 - [x] Verifying if a Tree is a BST
-- [ ] Transforming a Tree into a BST
+- [x] Transforming a Tree into a BST
 
+---
+## **To-Do List**
 ### **Graph Algorithms**
 - [ ] Graph Representation (Adjacency Matrix, Adjacency List)
 - [ ] Breadth-First Search (BFS)
