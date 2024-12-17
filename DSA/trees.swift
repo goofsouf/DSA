@@ -244,3 +244,21 @@ func findMaxBST(tree: node?) -> node? {
     }
     return current
 }
+
+func transformIntoBST(tree: node?) -> node? {
+    guard let tree else { return nil }
+    let array = preorderSerializeTree(tree: tree)
+    let sorted = quickSort(array: array.compactMap { $0 })
+    var index: Int = 0
+    func inorderWalkTree(tree: node?) {
+        guard let tree = tree else { return }
+        inorderWalkTree(tree: tree.left)
+        tree.value = sorted[index]
+        index += 1
+
+        inorderWalkTree(tree: tree.right)
+    }
+    
+    inorderWalkTree(tree: tree)
+    return tree
+}

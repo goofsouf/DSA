@@ -189,9 +189,9 @@ struct TreesTesting {
         let root = node(value: 10)
         root.left = node(value: 5)
         root.right = node(value: 15)
-
+        
         let updatedRoot = insertBSTNode(tree: root, value: 7)
-
+        
         #expect(updatedRoot?.value == 10)
         #expect(updatedRoot?.left?.value == 5)
         #expect(updatedRoot?.left?.right?.value == 7)
@@ -206,23 +206,23 @@ struct TreesTesting {
         root.right = node(value: 15)
         root.left?.left = node(value: 3)
         root.left?.right = node(value: 7)
-
+        
         var foundNode = searchBSTNode(tree: root, value: 7)
         #expect(foundNode?.value == 7, "Failed to find the existing value in the BST")
-
+        
         // Test Case 2: Search for the root node
         foundNode = searchBSTNode(tree: root, value: 10)
         #expect(foundNode?.value == 10, "Failed to find the root value in the BST")
-
+        
         // Test Case 3: Search for a value that doesn’t exist
         foundNode = searchBSTNode(tree: root, value: 12)
         #expect(foundNode == nil, "Search returned a node for a value that doesn't exist in the BST")
-
+        
         // Test Case 4: Search in a single-node tree
         let singleNodeTree = node(value: 10)
         foundNode = searchBSTNode(tree: singleNodeTree, value: 10)
         #expect(foundNode?.value == 10, "Failed to find the root value in a single-node tree")
-
+        
         // Test Case 5: Search in an empty tree
         let emptyTree: node? = nil
         foundNode = searchBSTNode(tree: emptyTree, value: 5)
@@ -240,7 +240,7 @@ struct TreesTesting {
         root.left?.left?.right = node(value: 7)
         root.right?.left = node(value: 25)
         root.right?.right = node(value: 40)
-
+        
         let updatedRoot = deleteBSTNode(tree: root, value: 10)
         #expect(updatedRoot?.value == 20, "Root value should remain 20")
         #expect(updatedRoot?.left?.value == 15, "The inorder successor 15 should replace 10")
@@ -255,30 +255,57 @@ struct TreesTesting {
         root1.left?.left = node(value: 2)
         root1.left?.right = node(value: 8)
         root1.right?.right = node(value: 20)
-
+        
         #expect(checkBSTProperty(tree: root1), "Tree should be a valid BST")
         
         let root2 = node(value: 10)
         root2.left = node(value: 5)
         root2.right = node(value: 20)
         root2.right?.left = node(value: 8)
-
+        
         #expect(!checkBSTProperty(tree: root2), "Tree should be invalid BST")
         
         let root = node(value: 20)
         root.left = node(value: 10)
         root.right = node(value: 30)
-
+        
         root.left?.left = node(value: 5)
         root.left?.right = node(value: 15)
         root.left?.left?.left = node(value: 3)
         root.left?.left?.right = node(value: 7)
-
+        
         root.right?.left = node(value: 25)
         root.right?.right = node(value: 40)
         root.right?.left?.left = node(value: 22)
         root.right?.left?.right = node(value: 27)
         
         #expect(checkBSTProperty(tree: root), "Tree should be a valid BST")
+    }
+    
+    
+    // MARK: build BST from binary tree
+    @Test func testTransformIntoBST() async throws {
+        let root = node(value: 1)
+        root.left = node(value: 2)
+        root.right = node(value: 3)
+
+        root.left?.left = node(value: 5)
+        root.left?.right = node(value: 6)
+        root.left?.left?.left = node(value: 7)
+        root.left?.left?.right = node(value: 8)
+
+        root.right?.left = node(value: 9)
+        root.right?.right = node(value: 10)
+        root.right?.left?.left = node(value: 11)
+        root.right?.left?.right = node(value: 12)
+
+        let tree = transformIntoBST(tree: root)
+        var result: [Int?] = []
+        traverseInorder(root: tree) { inNode in
+            result.append(inNode.value)
+        }
+        print(result)
+        let expected: [Int?] = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12]
+        #expect(result == expected, "The tree was not correctly transformed into a BST")
     }
 }

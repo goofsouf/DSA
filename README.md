@@ -41,6 +41,7 @@
 - [x] Traversals (Inorder, Preorder, Postorder for BST)
 - [x] Verifying if a Tree is a BST
 - [ ] Transforming a Tree into a BST
+
 ### **Graph Algorithms**
 - [ ] Graph Representation (Adjacency Matrix, Adjacency List)
 - [ ] Breadth-First Search (BFS)
