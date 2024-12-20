@@ -4,7 +4,6 @@
 //
 //  Created by Soufiane on 05/12/2024.
 //
-
 class node: Equatable {
     var left: node?
     var right: node?
