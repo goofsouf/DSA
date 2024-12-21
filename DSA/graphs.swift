@@ -47,4 +47,10 @@ class AdjacencyMatrix {
         guard from < size, to < size else { return }
         self.matrix[from][to] = weight
     }
+    
+    func findNeighbors(of node: Int) -> [Int] {
+        guard node < self.size else { return [] }
+        
+        return (0..<size).filter { self.matrix[node][$0] != 0 }
+    }
 }
