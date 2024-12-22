@@ -4,6 +4,17 @@
 //
 //  Created by Soufiane on 20/12/2024.
 //
+enum MatrixInitializationError: Error {
+    case emptyMatrix
+    case nonSquareMatrix
+}
+
+#if DEBUG
+extension AdjacencyMatrix {
+    var debugMatrix: [[Int]] { matrix }
+    var debugSize: Int { size }
+}
+#endif
 
 /// A class representing a directed graph using an adjacency matrix.
 class AdjacencyMatrix {
@@ -18,6 +29,21 @@ class AdjacencyMatrix {
         self.size = size
         self.matrix = Array(
             repeating: Array(repeating: 0, count: size), count: size)
+    }
+    
+    /// Initializes an adjacency matrix.
+    /// - Parameter matrix: A 2D array representing the adjacency matrix.
+    /// - Throws: `MatrixInitializationError.emptyMatrix` if the matrix is empty,
+    ///           `MatrixInitializationError.nonSquareMatrix` if the matrix is not square.
+    init(matrix: [[Int]]) throws {
+        guard !matrix.isEmpty else { throw MatrixInitializationError.emptyMatrix } // Check for empty matrix.
+        self.size = matrix.count
+        for row in matrix {
+            if row.count != self.size {
+                throw MatrixInitializationError.nonSquareMatrix // Ensure all rows are of equal length.
+            }
+        }
+        self.matrix = matrix
     }
     
     /// Adds a directed edge from one node to another.

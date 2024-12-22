@@ -304,7 +304,6 @@ struct TreesTesting {
         traverseInorder(root: tree) { inNode in
             result.append(inNode.value)
         }
-        print(result)
         let expected: [Int?] = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12]
         #expect(result == expected, "The tree was not correctly transformed into a BST")
     }
