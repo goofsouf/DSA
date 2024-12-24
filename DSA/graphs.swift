@@ -10,10 +10,10 @@ enum MatrixInitializationError: Error {
 }
 
 #if DEBUG
-extension AdjacencyMatrix {
-    var debugMatrix: [[Int]] { matrix }
-    var debugSize: Int { size }
-}
+    extension AdjacencyMatrix {
+        var debugMatrix: [[Int]] { matrix }
+        var debugSize: Int { size }
+    }
 #endif
 
 /// A class representing a directed graph using an adjacency matrix.
@@ -22,7 +22,7 @@ class AdjacencyMatrix {
     private let size: Int
     /// The adjacency matrix representing the graph.
     private var matrix: [[Int]]
-    
+
     /// Initializes a new adjacency matrix with a given size.
     /// - Parameter size: The number of nodes in the graph.
     init(size: Int) {
@@ -30,22 +30,24 @@ class AdjacencyMatrix {
         self.matrix = Array(
             repeating: Array(repeating: 0, count: size), count: size)
     }
-    
+
     /// Initializes an adjacency matrix.
     /// - Parameter matrix: A 2D array representing the adjacency matrix.
     /// - Throws: `MatrixInitializationError.emptyMatrix` if the matrix is empty,
     ///           `MatrixInitializationError.nonSquareMatrix` if the matrix is not square.
     init(matrix: [[Int]]) throws {
-        guard !matrix.isEmpty else { throw MatrixInitializationError.emptyMatrix } // Check for empty matrix.
+        guard !matrix.isEmpty else {
+            throw MatrixInitializationError.emptyMatrix
+        }  // Check for empty matrix.
         self.size = matrix.count
         for row in matrix {
             if row.count != self.size {
-                throw MatrixInitializationError.nonSquareMatrix // Ensure all rows are of equal length.
+                throw MatrixInitializationError.nonSquareMatrix  // Ensure all rows are of equal length.
             }
         }
         self.matrix = matrix
     }
-    
+
     /// Adds a directed edge from one node to another.
     /// - Parameters:
     ///   - from: The source node index.
@@ -54,7 +56,7 @@ class AdjacencyMatrix {
         guard from < size, to < size else { return }
         self.matrix[from][to] = 1
     }
-    
+
     /// Removes a directed edge from one node to another.
     /// - Parameters:
     ///   - from: The source node index.
@@ -63,7 +65,7 @@ class AdjacencyMatrix {
         guard from < size, to < size else { return }
         self.matrix[from][to] = 0
     }
-    
+
     /// Checks if a directed edge exists between two nodes.
     /// - Parameters:
     ///   - from: The source node index.
@@ -73,7 +75,7 @@ class AdjacencyMatrix {
         guard from < size, to < size else { return false }
         return self.matrix[from][to] == 1
     }
-    
+
     /// Displays the adjacency matrix in the console.
     func display() {
         guard self.size > 0 else { return }
@@ -81,7 +83,7 @@ class AdjacencyMatrix {
             print(row)
         }
     }
-    
+
     /// Adds a weighted directed edge from one node to another.
     /// - Parameters:
     ///   - from: The source node index.
@@ -91,7 +93,7 @@ class AdjacencyMatrix {
         guard from < size, to < size else { return }
         self.matrix[from][to] = weight
     }
-    
+
     /// Finds the neighbors of a given node.
     /// - Parameter node: The node index.
     /// - Returns: A list of neighboring nodes that the given node points to.
@@ -99,7 +101,7 @@ class AdjacencyMatrix {
         guard node < self.size else { return [] }
         return (0..<size).filter { self.matrix[node][$0] != 0 }
     }
-    
+
     /// Calculates the outdegree of a given node.
     /// - Parameter node: The node index.
     /// - Returns: The number of edges going out from the node.
@@ -107,12 +109,30 @@ class AdjacencyMatrix {
         guard node < self.size else { return 0 }
         return findNeighbors(of: node).count
     }
-    
+
     /// Calculates the indegree of a given node.
     /// - Parameter node: The node index.
     /// - Returns: The number of edges coming into the node.
     func inDegree(of node: Int) -> Int {
         guard node < self.size else { return 0 }
         return (0..<size).count { self.matrix[$0][node] != 0 }
+    }
+
+    /// Performs Breadth-First Search (BFS) traversal starting from a given node.
+    /// - Parameters:
+    ///   - startNode: The node index to start the traversal.
+    ///   - visit: A closure to process each visited node (default is to print the node).
+    func BFS(startNode: Int, visit: (Int) -> Void = { print($0) }) {
+        var queue: [Int] = [startNode] // Queue for nodes to visit.
+        var visited: Set<Int> = [startNode] // Set to track visited nodes.
+
+        while !queue.isEmpty {
+            let current = queue.removeFirst() // Dequeue the first node.
+            visit(current) // Process the current node.
+
+            // Add unvisited neighbors to the queue and mark them as visited.
+            let neighbors = self.findNeighbors(of: current)
+            queue.append(contentsOf: neighbors.filter { visited.insert($0).inserted })
+        }
     }
 }

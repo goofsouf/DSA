@@ -1,5 +1,10 @@
 import Foundation
-
-let graph = AdjacencyMatrix(size: 3)
+let matrix = [
+    [0, 1, 0],
+    [0, 0, 1],
+    [1, 0, 0]
+]
+let graph = try AdjacencyMatrix(matrix: matrix)
 
 graph.display()
+graph.BFS(startNode: 0)
