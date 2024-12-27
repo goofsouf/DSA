@@ -47,7 +47,7 @@
 - [ ] Graph Representations
   - [x] Adjacency Matrix
   - [ ] Adjacency List
-- [ ] Breadth-First Search (BFS)
+- [x] Breadth-First Search (BFS)
 - [ ] Depth-First Search (DFS)
 - [ ] Dijkstra's Algorithm
 - [ ] Bellman-Ford Algorithm

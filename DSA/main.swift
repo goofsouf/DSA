@@ -7,4 +7,4 @@ let matrix = [
 let graph = try AdjacencyMatrix(matrix: matrix)
 
 graph.display()
-graph.BFS(startNode: 0)
+graph.DFS(startNode: 0)

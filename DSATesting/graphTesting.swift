@@ -327,4 +327,83 @@ struct GraphTesting {
             "BFS failed on single-node graph. Got \(result), expected \(expected)."
         )
     }
+    
+    @Test func testDFSOnConnectedGraph() async throws {
+        // Arrange: Create a fully connected directed graph
+        let matrix = [
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+        
+        var visitedNodes: [Int] = []
+        let expectedOrder = [0, 1, 2, 3] // Expected DFS traversal order
+        
+        // Act: Perform DFS traversal
+        graph.DFS(startNode: 0) { visitedNodes.append($0) }
+        
+        // Assert
+        #expect(visitedNodes == expectedOrder, "DFS order does not match the expected order")
+    }
+
+    @Test func testDFSOnDisconnectedGraph() async throws {
+        // Arrange: Create a disconnected directed graph
+        let matrix = [
+            [0, 1, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+        
+        var visitedFromZero: [Int] = []
+        var visitedFromTwo: [Int] = []
+        
+        let expectedFromZero = [0, 1] // Expected DFS traversal from node 0
+        let expectedFromTwo = [2, 3] // Expected DFS traversal from node 2
+        
+        // Act: Perform DFS traversal from different start nodes
+        graph.DFS(startNode: 0) { visitedFromZero.append($0) }
+        graph.DFS(startNode: 2) { visitedFromTwo.append($0) }
+        
+        // Assert
+        #expect(visitedFromZero == expectedFromZero, "DFS from node 0 does not match the expected order")
+        #expect(visitedFromTwo == expectedFromTwo, "DFS from node 2 does not match the expected order")
+    }
+
+    @Test func testDFSOnSingleNodeGraph() async throws {
+        // Arrange: Create a graph with a single node
+        let matrix = [[0]]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+        
+        var visitedNodes: [Int] = []
+        let expectedOrder = [0] // Expected DFS traversal order
+        
+        // Act: Perform DFS traversal
+        graph.DFS(startNode: 0) { visitedNodes.append($0) }
+        
+        // Assert
+        #expect(visitedNodes == expectedOrder, "DFS on single node graph does not match the expected order")
+    }
+
+    @Test func testDFSOnInvalidStartNode() async throws {
+        // Arrange: Create a graph
+        let matrix = [
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+        
+        var visitedNodes: [Int] = []
+        
+        // Act: Perform DFS traversal from an invalid start node
+        graph.DFS(startNode: 10) { visitedNodes.append($0) }
+        
+        // Assert
+        #expect(visitedNodes.isEmpty, "DFS should not visit any nodes when starting from an invalid node")
+    }
 }

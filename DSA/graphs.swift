@@ -123,16 +123,56 @@ class AdjacencyMatrix {
     ///   - startNode: The node index to start the traversal.
     ///   - visit: A closure to process each visited node (default is to print the node).
     func BFS(startNode: Int, visit: (Int) -> Void = { print($0) }) {
-        var queue: [Int] = [startNode] // Queue for nodes to visit.
-        var visited: Set<Int> = [startNode] // Set to track visited nodes.
+        var queue: [Int] = [startNode]  // Queue for nodes to visit.
+        var visited: Set<Int> = [startNode]  // Set to track visited nodes.
 
         while !queue.isEmpty {
-            let current = queue.removeFirst() // Dequeue the first node.
-            visit(current) // Process the current node.
+            let current = queue.removeFirst()  // Dequeue the first node.
+            visit(current)  // Process the current node.
 
             // Add unvisited neighbors to the queue and mark them as visited.
             let neighbors = self.findNeighbors(of: current)
-            queue.append(contentsOf: neighbors.filter { visited.insert($0).inserted })
+            queue.append(
+                contentsOf: neighbors.filter { visited.insert($0).inserted })
         }
+    }
+
+    /// Performs a Depth-First Search (DFS) traversal starting from a given node.
+    /// - Parameters:
+    ///   - startNode: The node index to start the traversal from.
+    ///   - visit: A closure to execute on each visited node (default is to print the node).
+    /// - Discussion:
+    ///   This function traverses the graph in a depth-first manner, visiting all reachable nodes from the `startNode`.
+    ///   The traversal uses recursion to explore neighbors and avoids revisiting nodes using a `Set`.
+    /// - Example:
+    ///   ```swift
+    ///   let matrix = [
+    ///       [0, 1, 0, 0],
+    ///       [0, 0, 1, 0],
+    ///       [0, 0, 0, 1],
+    ///       [0, 0, 0, 0]
+    ///   ]
+    ///   let graph = AdjacencyMatrix(matrix: matrix)
+    ///   graph.DFS(startNode: 0) // Output: 0, 1, 2, 3
+    ///   ```
+    func DFS(startNode: Int, visit: (Int) -> Void = { print($0) }) {
+        guard startNode < self.size else {
+            print("Invalid start node")
+            return
+        }
+        var visited: Set<Int> = []
+
+        func walkGraph(startNode: Int) {
+            visited.insert(startNode)
+            visit(startNode)
+            let neighbors = self.findNeighbors(of: startNode)
+            let toVisit = neighbors.filter { !visited.contains($0) }
+
+            for i in toVisit {
+                walkGraph(startNode: i)
+            }
+        }
+
+        walkGraph(startNode: startNode)
     }
 }
