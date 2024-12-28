@@ -48,7 +48,7 @@
   - [x] Adjacency Matrix
   - [ ] Adjacency List
 - [x] Breadth-First Search (BFS)
-- [ ] Depth-First Search (DFS)
+- [x] Depth-First Search (DFS)
 - [ ] Dijkstra's Algorithm
 - [ ] Bellman-Ford Algorithm
 - [ ] Floyd-Warshall Algorithm

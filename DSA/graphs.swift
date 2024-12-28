@@ -175,4 +175,28 @@ class AdjacencyMatrix {
 
         walkGraph(startNode: startNode)
     }
+
+    /// Performs an iterative Depth-First Search (DFS) traversal starting from a given node.
+    /// - Parameters:
+    ///   - startNode: The node index to start the traversal from.
+    ///   - visit: A closure to execute on each visited node (default is to print the node).
+    func DFSiterative(startNode: Int, visit: (Int) -> Void = { print($0) }) {
+        guard startNode < self.size else {
+            print("Invalid start node")
+            return
+        }
+        var visited: Set<Int> = []
+        var toVisitStack: [Int] = [startNode]
+        
+        while !toVisitStack.isEmpty {
+            let current = toVisitStack.removeLast()
+            if visited.contains(current) { continue } // Skip if already visited
+            visited.insert(current) // Mark as visited
+            visit(current) // Perform the action
+            
+            // Add unvisited neighbors to the stack
+            let toVisit = self.findNeighbors(of: current).filter { !visited.contains($0) }
+            toVisitStack.append(contentsOf: toVisit)
+        }
+    }
 }

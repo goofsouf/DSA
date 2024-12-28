@@ -7,4 +7,4 @@ let matrix = [
 let graph = try AdjacencyMatrix(matrix: matrix)
 
 graph.display()
-graph.DFS(startNode: 0)
+graph.DFSiterative(startNode: 0)

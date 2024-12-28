@@ -406,4 +406,83 @@ struct GraphTesting {
         // Assert
         #expect(visitedNodes.isEmpty, "DFS should not visit any nodes when starting from an invalid node")
     }
+    
+    @Test func testDFSiterativeOnConnectedGraph() async throws {
+            // Arrange: Create a fully connected directed graph
+            let matrix = [
+                [0, 1, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0, 0, 1],
+                [0, 0, 0, 0]
+            ]
+            let graph = try AdjacencyMatrix(matrix: matrix)
+            
+            var visitedNodes: [Int] = []
+            let expectedOrder = [0, 1, 2, 3] // Expected DFSiterative traversal order
+            
+            // Act: Perform DFSiterative traversal
+            graph.DFSiterative(startNode: 0) { visitedNodes.append($0) }
+            
+            // Assert
+            #expect(visitedNodes == expectedOrder, "DFSiterative order does not match the expected order")
+        }
+
+        @Test func testDFSiterativeOnDisconnectedGraph() async throws {
+            // Arrange: Create a disconnected directed graph
+            let matrix = [
+                [0, 1, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 1],
+                [0, 0, 0, 0]
+            ]
+            let graph = try AdjacencyMatrix(matrix: matrix)
+            
+            var visitedFromZero: [Int] = []
+            var visitedFromTwo: [Int] = []
+            
+            let expectedFromZero = [0, 1] // Expected DFSiterative traversal from node 0
+            let expectedFromTwo = [2, 3] // Expected DFSiterative traversal from node 2
+            
+            // Act: Perform DFSiterative traversal from different start nodes
+            graph.DFSiterative(startNode: 0) { visitedFromZero.append($0) }
+            graph.DFSiterative(startNode: 2) { visitedFromTwo.append($0) }
+            
+            // Assert
+            #expect(visitedFromZero == expectedFromZero, "DFSiterative from node 0 does not match the expected order")
+            #expect(visitedFromTwo == expectedFromTwo, "DFSiterative from node 2 does not match the expected order")
+        }
+
+        @Test func testDFSiterativeOnSingleNodeGraph() async throws {
+            // Arrange: Create a graph with a single node
+            let matrix = [[0]]
+            let graph = try AdjacencyMatrix(matrix: matrix)
+            
+            var visitedNodes: [Int] = []
+            let expectedOrder = [0] // Expected DFSiterative traversal order
+            
+            // Act: Perform DFSiterative traversal
+            graph.DFSiterative(startNode: 0) { visitedNodes.append($0) }
+            
+            // Assert
+            #expect(visitedNodes == expectedOrder, "DFSiterative on single node graph does not match the expected order")
+        }
+
+        @Test func testDFSiterativeOnInvalidStartNode() async throws {
+            // Arrange: Create a graph
+            let matrix = [
+                [0, 1, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0, 0, 1],
+                [0, 0, 0, 0]
+            ]
+            let graph = try AdjacencyMatrix(matrix: matrix)
+            
+            var visitedNodes: [Int] = []
+            
+            // Act: Perform DFSiterative traversal from an invalid start node
+            graph.DFSiterative(startNode: 10) { visitedNodes.append($0) }
+            
+            // Assert
+            #expect(visitedNodes.isEmpty, "DFSiterative should not visit any nodes when starting from an invalid node")
+        }
 }
