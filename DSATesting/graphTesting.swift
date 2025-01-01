@@ -327,25 +327,27 @@ struct GraphTesting {
             "BFS failed on single-node graph. Got \(result), expected \(expected)."
         )
     }
-    
+
     @Test func testDFSOnConnectedGraph() async throws {
         // Arrange: Create a fully connected directed graph
         let matrix = [
             [0, 1, 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1],
-            [0, 0, 0, 0]
+            [0, 0, 0, 0],
         ]
         let graph = try AdjacencyMatrix(matrix: matrix)
-        
+
         var visitedNodes: [Int] = []
-        let expectedOrder = [0, 1, 2, 3] // Expected DFS traversal order
-        
+        let expectedOrder = [0, 1, 2, 3]  // Expected DFS traversal order
+
         // Act: Perform DFS traversal
         graph.DFS(startNode: 0) { visitedNodes.append($0) }
-        
+
         // Assert
-        #expect(visitedNodes == expectedOrder, "DFS order does not match the expected order")
+        #expect(
+            visitedNodes == expectedOrder,
+            "DFS order does not match the expected order")
     }
 
     @Test func testDFSOnDisconnectedGraph() async throws {
@@ -354,38 +356,44 @@ struct GraphTesting {
             [0, 1, 0, 0],
             [0, 0, 0, 0],
             [0, 0, 0, 1],
-            [0, 0, 0, 0]
+            [0, 0, 0, 0],
         ]
         let graph = try AdjacencyMatrix(matrix: matrix)
-        
+
         var visitedFromZero: [Int] = []
         var visitedFromTwo: [Int] = []
-        
-        let expectedFromZero = [0, 1] // Expected DFS traversal from node 0
-        let expectedFromTwo = [2, 3] // Expected DFS traversal from node 2
-        
+
+        let expectedFromZero = [0, 1]  // Expected DFS traversal from node 0
+        let expectedFromTwo = [2, 3]  // Expected DFS traversal from node 2
+
         // Act: Perform DFS traversal from different start nodes
         graph.DFS(startNode: 0) { visitedFromZero.append($0) }
         graph.DFS(startNode: 2) { visitedFromTwo.append($0) }
-        
+
         // Assert
-        #expect(visitedFromZero == expectedFromZero, "DFS from node 0 does not match the expected order")
-        #expect(visitedFromTwo == expectedFromTwo, "DFS from node 2 does not match the expected order")
+        #expect(
+            visitedFromZero == expectedFromZero,
+            "DFS from node 0 does not match the expected order")
+        #expect(
+            visitedFromTwo == expectedFromTwo,
+            "DFS from node 2 does not match the expected order")
     }
 
     @Test func testDFSOnSingleNodeGraph() async throws {
         // Arrange: Create a graph with a single node
         let matrix = [[0]]
         let graph = try AdjacencyMatrix(matrix: matrix)
-        
+
         var visitedNodes: [Int] = []
-        let expectedOrder = [0] // Expected DFS traversal order
-        
+        let expectedOrder = [0]  // Expected DFS traversal order
+
         // Act: Perform DFS traversal
         graph.DFS(startNode: 0) { visitedNodes.append($0) }
-        
+
         // Assert
-        #expect(visitedNodes == expectedOrder, "DFS on single node graph does not match the expected order")
+        #expect(
+            visitedNodes == expectedOrder,
+            "DFS on single node graph does not match the expected order")
     }
 
     @Test func testDFSOnInvalidStartNode() async throws {
@@ -394,95 +402,289 @@ struct GraphTesting {
             [0, 1, 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1],
+            [0, 0, 0, 0],
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        var visitedNodes: [Int] = []
+
+        // Act: Perform DFS traversal from an invalid start node
+        graph.DFS(startNode: 10) { visitedNodes.append($0) }
+
+        // Assert
+        #expect(
+            visitedNodes.isEmpty,
+            "DFS should not visit any nodes when starting from an invalid node")
+    }
+
+    @Test func testDFSiterativeOnConnectedGraph() async throws {
+        // Arrange: Create a fully connected directed graph
+        let matrix = [
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0],
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        var visitedNodes: [Int] = []
+        let expectedOrder = [0, 1, 2, 3]  // Expected DFSiterative traversal order
+
+        // Act: Perform DFSiterative traversal
+        graph.DFSiterative(startNode: 0) { visitedNodes.append($0) }
+
+        // Assert
+        #expect(
+            visitedNodes == expectedOrder,
+            "DFSiterative order does not match the expected order")
+    }
+
+    @Test func testDFSiterativeOnDisconnectedGraph() async throws {
+        // Arrange: Create a disconnected directed graph
+        let matrix = [
+            [0, 1, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0],
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        var visitedFromZero: [Int] = []
+        var visitedFromTwo: [Int] = []
+
+        let expectedFromZero = [0, 1]  // Expected DFSiterative traversal from node 0
+        let expectedFromTwo = [2, 3]  // Expected DFSiterative traversal from node 2
+
+        // Act: Perform DFSiterative traversal from different start nodes
+        graph.DFSiterative(startNode: 0) { visitedFromZero.append($0) }
+        graph.DFSiterative(startNode: 2) { visitedFromTwo.append($0) }
+
+        // Assert
+        #expect(
+            visitedFromZero == expectedFromZero,
+            "DFSiterative from node 0 does not match the expected order")
+        #expect(
+            visitedFromTwo == expectedFromTwo,
+            "DFSiterative from node 2 does not match the expected order")
+    }
+
+    @Test func testDFSiterativeOnSingleNodeGraph() async throws {
+        // Arrange: Create a graph with a single node
+        let matrix = [[0]]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        var visitedNodes: [Int] = []
+        let expectedOrder = [0]  // Expected DFSiterative traversal order
+
+        // Act: Perform DFSiterative traversal
+        graph.DFSiterative(startNode: 0) { visitedNodes.append($0) }
+
+        // Assert
+        #expect(
+            visitedNodes == expectedOrder,
+            "DFSiterative on single node graph does not match the expected order"
+        )
+    }
+
+    @Test func testDFSiterativeOnInvalidStartNode() async throws {
+        // Arrange: Create a graph
+        let matrix = [
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0],
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        var visitedNodes: [Int] = []
+
+        // Act: Perform DFSiterative traversal from an invalid start node
+        graph.DFSiterative(startNode: 10) { visitedNodes.append($0) }
+
+        // Assert
+        #expect(
+            visitedNodes.isEmpty,
+            "DFSiterative should not visit any nodes when starting from an invalid node"
+        )
+    }
+    @Test func testGetWeightsValidNodes() async throws {
+        let adjacencyMatrix = [
+            [0, 4, 1, 0],
+            [0, 0, 0, 1],
+            [0, 2, 0, 5],
+            [0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: adjacencyMatrix)
+        
+        let sourceNode = 0
+        let destinationNodes = [1, 2, 3]
+        let expectedWeights = [4, 1, 0]
+        
+        let weights = graph.getWeights(from: sourceNode, to: destinationNodes)
+        
+        #expect(weights == expectedWeights, "Weights for valid nodes are incorrect")
+    }
+
+    @Test func testGetWeightsWithInvalidDestination() async throws {
+        let adjacencyMatrix = [
+            [0, 4, 1, 0],
+            [0, 0, 0, 1],
+            [0, 2, 0, 5],
+            [0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: adjacencyMatrix)
+        
+        let sourceNode = 0
+        let destinationNodes = [1, 2, 4] // Node 4 is invalid
+        let expectedWeights = [4, 1, 0] // Weight for invalid node should be 0
+        
+        let weights = graph.getWeights(from: sourceNode, to: destinationNodes)
+        
+        #expect(weights == expectedWeights, "Weights for nodes including invalid destinations are incorrect")
+    }
+
+    @Test func testGetWeightsInvalidSource() async throws {
+        let adjacencyMatrix = [
+            [0, 4, 1, 0],
+            [0, 0, 0, 1],
+            [0, 2, 0, 5],
+            [0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: adjacencyMatrix)
+        
+        let sourceNode = 5 // Invalid source node
+        let destinationNodes = [1, 2, 3]
+        let expectedWeights: [Int] = [] // No weights should be returned
+        
+        let weights = graph.getWeights(from: sourceNode, to: destinationNodes)
+        
+        #expect(weights == expectedWeights, "Weights for an invalid source node should be empty")
+    }
+
+    @Test func testGetWeightsEmptyDestinationList() async throws {
+        let adjacencyMatrix = [
+            [0, 4, 1, 0],
+            [0, 0, 0, 1],
+            [0, 2, 0, 5],
+            [0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: adjacencyMatrix)
+        
+        let sourceNode = 0
+        let destinationNodes: [Int] = [] // Empty destination list
+        let expectedWeights: [Int] = [] // No weights should be returned
+        
+        let weights = graph.getWeights(from: sourceNode, to: destinationNodes)
+        
+        #expect(weights == expectedWeights, "Weights for an empty destination list should be empty")
+    }
+    
+    @Test func testSingleNodeGraph() async throws {
+        let matrix = [
+            [0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        let distances = graph.dijkstra(source: 0)
+
+        #expect(distances == [0], "Expected distances to be [0] for a single-node graph")
+    }
+
+    @Test func testSmallGraph() async throws {
+        let matrix = [
+            [0, 1, 4],
+            [0, 0, 2],
+            [0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        let distances = graph.dijkstra(source: 0)
+
+        #expect(distances == [0, 1, 3], "Expected distances to be [0, 1, 3] for small graph")
+    }
+
+    @Test func testDisconnectedGraph() async throws {
+        let matrix = [
+            [0, 3, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        let distances = graph.dijkstra(source: 0)
+
+        #expect(distances == [0, 3, Int.max], "Expected distances to be [0, 3, Int.max] for disconnected graph")
+    }
+
+    @Test func testLargerGraph() async throws {
+        let matrix = [
+            [0, 4, 0, 0, 0, 0],
+            [0, 0, 3, 2, 0, 0],
+            [0, 0, 0, 0, 7, 0],
+            [0, 0, 1, 0, 0, 1],
+            [0, 0, 0, 0, 0, 5],
+            [0, 0, 0, 0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        let distances = graph.dijkstra(source: 0)
+
+        #expect(
+            distances == [0, 4, 7, 6, 14, 7],
+            "Expected distances to be [0, 4, 7, 6, 14, 7] for larger graph"
+        )
+    }
+
+    @Test func testAllNodesDisconnected() async throws {
+        let matrix = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        let distances = graph.dijkstra(source: 0)
+
+        #expect(distances == [0, Int.max, Int.max], "Expected distances to be [0, Int.max, Int.max] for disconnected nodes")
+    }
+
+    @Test func testCompleteGraph() async throws {
+        let matrix = [
+            [0, 1, 1],
+            [1, 0, 1],
+            [1, 1, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
+
+        let distances = graph.dijkstra(source: 0)
+
+        #expect(distances == [0, 1, 1], "Expected distances to be [0, 1, 1] for a complete graph")
+    }
+
+    @Test func testSinglePathGraph() async throws {
+        let matrix = [
+            [0, 2, 0, 0],
+            [0, 0, 3, 0],
+            [0, 0, 0, 1],
             [0, 0, 0, 0]
         ]
         let graph = try AdjacencyMatrix(matrix: matrix)
-        
-        var visitedNodes: [Int] = []
-        
-        // Act: Perform DFS traversal from an invalid start node
-        graph.DFS(startNode: 10) { visitedNodes.append($0) }
-        
-        // Assert
-        #expect(visitedNodes.isEmpty, "DFS should not visit any nodes when starting from an invalid node")
+
+        let distances = graph.dijkstra(source: 0)
+
+        #expect(distances == [0, 2, 5, 6], "Expected distances to be [0, 2, 5, 6] for single path graph")
     }
-    
-    @Test func testDFSiterativeOnConnectedGraph() async throws {
-            // Arrange: Create a fully connected directed graph
-            let matrix = [
-                [0, 1, 0, 0],
-                [0, 0, 1, 0],
-                [0, 0, 0, 1],
-                [0, 0, 0, 0]
-            ]
-            let graph = try AdjacencyMatrix(matrix: matrix)
-            
-            var visitedNodes: [Int] = []
-            let expectedOrder = [0, 1, 2, 3] // Expected DFSiterative traversal order
-            
-            // Act: Perform DFSiterative traversal
-            graph.DFSiterative(startNode: 0) { visitedNodes.append($0) }
-            
-            // Assert
-            #expect(visitedNodes == expectedOrder, "DFSiterative order does not match the expected order")
-        }
 
-        @Test func testDFSiterativeOnDisconnectedGraph() async throws {
-            // Arrange: Create a disconnected directed graph
-            let matrix = [
-                [0, 1, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 1],
-                [0, 0, 0, 0]
-            ]
-            let graph = try AdjacencyMatrix(matrix: matrix)
-            
-            var visitedFromZero: [Int] = []
-            var visitedFromTwo: [Int] = []
-            
-            let expectedFromZero = [0, 1] // Expected DFSiterative traversal from node 0
-            let expectedFromTwo = [2, 3] // Expected DFSiterative traversal from node 2
-            
-            // Act: Perform DFSiterative traversal from different start nodes
-            graph.DFSiterative(startNode: 0) { visitedFromZero.append($0) }
-            graph.DFSiterative(startNode: 2) { visitedFromTwo.append($0) }
-            
-            // Assert
-            #expect(visitedFromZero == expectedFromZero, "DFSiterative from node 0 does not match the expected order")
-            #expect(visitedFromTwo == expectedFromTwo, "DFSiterative from node 2 does not match the expected order")
-        }
+    @Test func testCycleGraph() async throws {
+        let matrix = [
+            [0, 1, 0],
+            [0, 0, 1],
+            [1, 0, 0]
+        ]
+        let graph = try AdjacencyMatrix(matrix: matrix)
 
-        @Test func testDFSiterativeOnSingleNodeGraph() async throws {
-            // Arrange: Create a graph with a single node
-            let matrix = [[0]]
-            let graph = try AdjacencyMatrix(matrix: matrix)
-            
-            var visitedNodes: [Int] = []
-            let expectedOrder = [0] // Expected DFSiterative traversal order
-            
-            // Act: Perform DFSiterative traversal
-            graph.DFSiterative(startNode: 0) { visitedNodes.append($0) }
-            
-            // Assert
-            #expect(visitedNodes == expectedOrder, "DFSiterative on single node graph does not match the expected order")
-        }
+        let distances = graph.dijkstra(source: 0)
 
-        @Test func testDFSiterativeOnInvalidStartNode() async throws {
-            // Arrange: Create a graph
-            let matrix = [
-                [0, 1, 0, 0],
-                [0, 0, 1, 0],
-                [0, 0, 0, 1],
-                [0, 0, 0, 0]
-            ]
-            let graph = try AdjacencyMatrix(matrix: matrix)
-            
-            var visitedNodes: [Int] = []
-            
-            // Act: Perform DFSiterative traversal from an invalid start node
-            graph.DFSiterative(startNode: 10) { visitedNodes.append($0) }
-            
-            // Assert
-            #expect(visitedNodes.isEmpty, "DFSiterative should not visit any nodes when starting from an invalid node")
-        }
+        #expect(distances == [0, 1, 2], "Expected distances to be [0, 1, 2] for cycle graph")
+    }
 }

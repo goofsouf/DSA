@@ -118,6 +118,35 @@ class AdjacencyMatrix {
         return (0..<size).count { self.matrix[$0][node] != 0 }
     }
 
+    /// Retrieves the weights of edges from a source node to a list of destination nodes.
+    /// - Parameters:
+    ///   - sourceNode: The index of the source node.
+    ///   - destinationNodes: An array of destination node indices.
+    /// - Returns: An array of weights corresponding to the edges from the source to each destination node.
+    ///   If an edge does not exist, its weight is considered `0`.
+    func getWeights(from sourceNode: Int, to destinationNodes: [Int]) -> [Int] {
+        // Guard to ensure the source node is within valid bounds
+        guard sourceNode < self.size else {
+            print(
+                "Invalid source node: \(sourceNode). It exceeds the graph size."
+            )
+            return []
+        }
+
+        var weights: [Int] = []
+        for node in destinationNodes {
+            // Ensure each destination node is within valid bounds
+            guard node < self.size else {
+                print("Invalid destination node: \(node). Skipping.")
+                weights.append(0)  // Add 0 for invalid nodes
+                continue
+            }
+            // Append the weight of the edge
+            weights.append(self.matrix[sourceNode][node])
+        }
+        return weights
+    }
+
     /// Performs Breadth-First Search (BFS) traversal starting from a given node.
     /// - Parameters:
     ///   - startNode: The node index to start the traversal.
@@ -187,16 +216,51 @@ class AdjacencyMatrix {
         }
         var visited: Set<Int> = []
         var toVisitStack: [Int] = [startNode]
-        
+
         while !toVisitStack.isEmpty {
             let current = toVisitStack.removeLast()
-            if visited.contains(current) { continue } // Skip if already visited
-            visited.insert(current) // Mark as visited
-            visit(current) // Perform the action
-            
+            if visited.contains(current) { continue }  // Skip if already visited
+            visited.insert(current)  // Mark as visited
+            visit(current)  // Perform the action
+
             // Add unvisited neighbors to the stack
-            let toVisit = self.findNeighbors(of: current).filter { !visited.contains($0) }
+            let toVisit = self.findNeighbors(of: current).filter {
+                !visited.contains($0)
+            }
             toVisitStack.append(contentsOf: toVisit)
         }
+    }
+    /// Dijkstra's algorithm to find the shortest paths from a source node to all other nodes in a weighted graph using an adjacency matrix.
+    /// - Parameters:i
+    ///   - source: The source node index.
+    /// - Returns: An array where the value at each index represents the shortest distance from the source to that node.
+    func dijkstra(source: Int) -> [Int] {
+        var distances: [Int] = Array(repeating: Int.max, count: self.size)
+        distances[source] = 0
+        var visited: Set<Int> = []
+        var currentNode = source
+        for _ in 0..<self.size {
+            var minDistance = Int.max
+            let neighbors = self.findNeighbors(of: currentNode).filter {
+                !visited.contains($0)
+            }
+            for neighbor in neighbors {
+                let newDistance =
+                    self.matrix[currentNode][neighbor]
+                    + distances[currentNode]
+                distances[neighbor] = min(newDistance, distances[neighbor])
+            }
+            visited.insert(currentNode)
+            var nextNode: Int? = nil
+            for node in 0..<self.size {
+                if distances[node] <= minDistance, !visited.contains(node) {
+                    minDistance = distances[node]
+                    nextNode = node
+                }
+            }
+            guard let node = nextNode else { break }
+            currentNode = node
+        }
+        return distances
     }
 }
